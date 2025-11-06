@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from '../user/controller/user.controller';
 import { UserPermissionService } from '../user/servcie/user-permission.service';
@@ -16,6 +16,7 @@ import { UserIdentityDao } from './dao/user-identity.dao';
 import { RoleDao } from './dao/role.dao';
 import { RolePermissionsDao } from './dao/role-permissions.dao';
 import { UserRoleDao } from './dao/user-role.dao';
+import { AuthModule } from '../auth/auth.module'; // <-- import with forwardRef to break circular dep
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserRoleDao } from './dao/user-role.dao';
       UserRole,
       RolePermission,
     ]),
+    forwardRef(() => AuthModule), // 👈 important
   ],
   controllers: [UserController],
   providers: [
@@ -39,6 +41,6 @@ import { UserRoleDao } from './dao/user-role.dao';
     RolePermissionsDao,
     UserRoleDao,
   ],
-  exports: [UserPermissionService],
+  exports: [UserPermissionService], // 👈 must be exported
 })
 export class UserModule {}

@@ -12,6 +12,7 @@ import { UserIdentity } from 'src/user/entities/user-identity.entity';
 import { UserRole } from 'src/user/entities/user-role.entity';
 import { RolePermission } from 'src/user/entities/role-permission.entity';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { UserModule } from './user/user.module';
 
     // Application modules
     UserModule,
+    AuthModule,
   ],
 
   controllers: [AppController],
